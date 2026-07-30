@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Velocidad")]
     [SerializeField] private float walkSpeed = 5f;
-    [SerializeField] private float sprintpeed = 10f;
+    [SerializeField] private float sprintSpeed = 10f;
 
     [Header("Salto y gravedad")]
     [SerializeField] private float jumpHeight = 1.2f;
@@ -29,7 +29,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        ReadInput();
+        ApplyMovement();
     }
 
     private void ReadInput()
@@ -67,10 +68,28 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyMovement()
     {
         Vector3 moveDirection = (transform.right * moveInput.x + transform.forward * moveInput.y).normalized;
-        float currentSpeed = walkSpeed;
+        float currentSpeed = walkSpeed; // por default la velocidad del player es la walkSpeed (5f)
         if (sprintHeld == true)
         {
-            currentSpeed = sprintpeed;
+            currentSpeed = sprintSpeed; // solo se actualiza el valor de velocidad si se presiona la tecla leftShift
         }
+
+        if (controller.isGrounded) // detectar si el player esta sobre una superficie
+        {
+            velocity = -2f; // pequeña fuerza para evitar falsos positivos 
+            if (jumpRequest)
+            {
+                velocity = Mathf.Sqrt(-2*jumpHeight*gravity); // calculando la velocidad final de caida en el salto
+            }                                                 // V = raiz(2*altura*gravedad)
+        }
+        else
+        {
+            velocity += gravity * Time.deltaTime; 
+        }
+        jumpRequest = false; 
+
+        Vector3 finalMove = moveDirection * currentSpeed;
+        finalMove.y = velocity;
+        controller.Move(finalMove * Time.deltaTime);
     }
 }
