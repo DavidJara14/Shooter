@@ -4,7 +4,8 @@ using UnityEngine;
 public class WeaponData : ScriptableObject
 {
     public string weaponName = "";
-    public Sprite icon;
+    public Sprite icon;             // Imagen del arma
+    public GameObject weaponPrefab; //Modelo del arma
 
     public float damage = 25f;
     public float fireRate = 8f;
