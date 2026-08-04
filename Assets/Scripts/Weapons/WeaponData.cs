@@ -12,4 +12,6 @@ public class WeaponData : ScriptableObject
     public float range = 100f;
 
     public int magazineSize = 30;
+
+    public AudioClip fireSound;  // Sonido de disparo
 }

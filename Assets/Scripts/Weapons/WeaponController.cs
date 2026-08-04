@@ -7,8 +7,12 @@ public class WeaponController : MonoBehaviour
     [Header("Configuración")]
     [SerializeField] private WeaponData weaponData;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private LayerMask hittableLayers = -0; //todas las layers del juego 
+    [SerializeField] private LayerMask hittableLayers = ~0; //todas las layers del juego 
     [SerializeField] private LineRenderer lineRenderer;
+
+    [Header("Efectos")]
+    [SerializeField] private ParticleSystem muzzleFlash; //Efecto de disparo
+    [SerializeField] private AudioSource audioSource;    //Sonido de disparo
 
     [SerializeField] private int currentAmmo;
     private float nextFireTime;
@@ -34,13 +38,17 @@ public class WeaponController : MonoBehaviour
         nextFireTime = Time.time + (1f/weaponData.fireRate);
         currentAmmo --; // cada disparo es una bala menos
 
+        muzzleFlash.Play(); //Renderizar el flash del disparo
+        audioSource.PlayOneShot(weaponData.fireSound); // reproduciendo el sonido de disparo una vez
+
         DispararRayo();
     }
 
     private void DispararRayo()
     {
         RaycastHit hit;
-        bool golpeo = Physics.Raycast(transform.position, transform.forward, out hit, weaponData.range, hittableLayers);
+        bool golpeo = Physics.Raycast(firePoint.position, firePoint.forward, out hit, weaponData.range, hittableLayers);
+                            //Raycast(punto_de_inicio, vector de dereccion, informacion de salida, alcance del raycast, layer_mask(capas afectadas)) 
         Vector3 puntoFinal;
 
         if (golpeo)
@@ -77,4 +85,5 @@ public class WeaponController : MonoBehaviour
     {
         lineRenderer.enabled = false;
     }
+
 }
