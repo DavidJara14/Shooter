@@ -25,12 +25,12 @@ public class Health : MonoBehaviour, IDamageable
 
         currentHealth = Math.Max(0f, currentHealth - amount);
 
-        OnHealthChanged(currentHealth, maxHealth);
+        OnHealthChanged?.Invoke(currentHealth, maxHealth); 
 
         if (currentHealth <= 0f)
         {
             isDead = true;
-            OnDeath(source);
+            OnDeath?.Invoke(source);
         }
 
     }
