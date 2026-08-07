@@ -142,8 +142,15 @@ public class WeaponController : MonoBehaviour
         }
 
         GameObject magCaida = Instantiate(magVisual.gameObject, magVisual.position, magVisual.rotation);
-        magVisual.transform.SetParent(null);
-        Rigidbody rb = magCaida.GetComponent<Rigidbody>(); // recordar añadir el componente RigidBody al mag
+        magCaida.transform.SetParent(null);
+        Rigidbody rb = magCaida.GetComponent<Rigidbody>();
+        
+        if(rb == null)
+        {
+            magCaida.AddComponent<Rigidbody>();
+            rb = magCaida.GetComponent<Rigidbody>();
+        }
+
 
         Vector3 direccionAleatoria = new Vector3(Random.Range(-0.3f,0.3f), 0.3f, Random.Range(-0.3f, 0.3f));
 

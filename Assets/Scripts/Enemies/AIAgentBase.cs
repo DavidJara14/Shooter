@@ -51,7 +51,7 @@ public abstract class AIAgentBase : MonoBehaviour
         if (alertaPendiente)
         {
             alertaPendiente = false;
-            //SquadCoordinator.AlertarCercanos(this, objetivoParaAlerta);
+            SquadCoordinator.AlertarCercanos(this, objetivoParaAlerta);
         }
 
         switch (estadoActual)

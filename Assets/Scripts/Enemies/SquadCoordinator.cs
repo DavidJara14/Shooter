@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class SquadCoordinator
 {
-    private const float RadioDeAlerta = 15f;
+    private const float RadioDeAlerta = 25f;
 
     public static void AlertarCercanos(AIAgentBase quienDetecto, Transform objetivo)
     {
